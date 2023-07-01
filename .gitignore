@@ -1,0 +1,5 @@
+/target
+.env
+/src/prisma.rs
+/prisma/migrations
+docker-compose.yml

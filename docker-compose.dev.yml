@@ -1,0 +1,18 @@
+version: '3.8'
+name: simple-axum-google-oauth
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: local
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: local
+    ports:
+      - '5432:5432'
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+    networks:
+      - local
+networks:
+  local:
