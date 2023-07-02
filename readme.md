@@ -59,7 +59,7 @@ sequenceDiagram
 ```
 
 # How to deploy
-Customize your values, in the [`docker-compose`](./docker-compose.yml) file. And then:
+Customize your values, in the [`docker-compose`](./docker-compose.prod.yml) file. And then:
 ```zsh
 docker-compose -f docker-compose.prod.yml up -d
 ```
