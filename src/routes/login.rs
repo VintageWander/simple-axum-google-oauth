@@ -1,5 +1,5 @@
 use axum::{
-    extract::{Host, Query, State},
+    extract::{Query, State},
     response::{IntoResponse, Redirect},
     routing::get,
     Router,
@@ -16,14 +16,13 @@ pub fn login() -> Router<GlobalState> {
     }
     async fn login_handler(
         State(GlobalState { db }): State<GlobalState>,
-        Host(hostname): Host,
         Query(LoginQuery { return_url }): Query<LoginQuery>,
     ) -> WebResult {
         let return_url = return_url.unwrap_or_else(|| "/".into());
 
         let (pkce_code_challenge, pkce_code_verifier) = PkceCodeChallenge::new_random_sha256();
 
-        let oauth_client = get_client(hostname);
+        let oauth_client = get_client();
 
         let (authorized_url, csrf_state) = oauth_client
             .authorize_url(CsrfToken::new_random)

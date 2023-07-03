@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{
-    extract::{Host, Query, State},
+    extract::{Query, State},
     response::{IntoResponse, Redirect},
     routing::get,
     Router,
@@ -34,7 +34,6 @@ pub fn oauth_callback() -> Router<GlobalState> {
         cookies: CookieJar,
         Query(OAuthCallbackQuery { state, code }): Query<OAuthCallbackQuery>,
         Query(query): Query<HashMap<String, String>>,
-        Host(hostname): Host,
     ) -> WebResult {
         dbg!(query);
         let state = CsrfToken::new(state);
@@ -51,7 +50,7 @@ pub fn oauth_callback() -> Router<GlobalState> {
         let pkce_code_verifier = PkceCodeVerifier::new(deleted_oauth_state.pkce_code_verifier);
         let return_url = deleted_oauth_state.return_url;
 
-        let client = get_client(hostname);
+        let client = get_client();
 
         let token_response = spawn_blocking(move || {
             client
